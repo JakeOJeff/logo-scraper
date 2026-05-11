@@ -4,9 +4,9 @@ def run(playwright: Playwright):
     chromium = playwright.chromium
     browser = chromium.launch()
     page = browser.new_page()
-    page.goto("http://example.com")
-    texts = page.get_by_role("link").all_text_contents()
-    print(texts)
+    page.goto("https://orbitysws.vercel.app/")
+    html_content = page.content()
+    print(html_content)
     browser.close()
 
 with sync_playwright() as playwright:
