@@ -24,6 +24,7 @@
         env = {
           PLAYWRIGHT_BROWSERS_PATH = pkgs.playwright-driver.browsers;
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+          LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
         };
       };
 
