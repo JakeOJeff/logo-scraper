@@ -14,6 +14,7 @@
       nativeBuildInputs = with pkgs; [
         python
         playwright-driver.browsers
+        postgresql
       ];
 
       buildInputs = with pkgs; [];
@@ -26,7 +27,18 @@
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
           LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
         };
+        shellHook = ''
+          export PGDATA="$PWD/pgdata"
+          export PGHOST="$PWD/pgdata"
+          if [ ! -d "$PGDATA" ]; then
+            echo "Initialising local postgres..."
+            initdb --no-locale --encoding=UTF8
+          fi
+          pg_ctl start -l "$PGDATA/postgres.log" -o "--unix_socket_directories=$PGDATA"
+          trap "pg_ctl stop" EXIT
+        '';
       };
+
 
       packages.default = python.pkgs.buildPythonApplication {
         pname = "logo-scraper";

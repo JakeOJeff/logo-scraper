@@ -4,7 +4,7 @@ def run(playwright: Playwright):
     chromium = playwright.chromium
     browser = chromium.launch()
     page = browser.new_page()
-    page.goto("https://orbitysws.vercel.app/")
+    page.goto("https://example.com")
     html_content = page.content()
     print(html_content)
     browser.close()
