@@ -14,3 +14,12 @@ def create():
             )
         """)
         conn.commit()
+
+def insertHtml(url, html):
+    conn = getConn()
+    with conn.cursor() as cur:
+        cur.execute("""
+            INSERT INTO rhtml (url, html) VALUES (%s, %s)
+        """, (url, html)
+        )
+    conn.commit()
