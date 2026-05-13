@@ -4,6 +4,13 @@ def getConn():
     return psycopg2.connect(dbname="logos")
 
 def create():
-    cur.execute(
-        "CREATE TABLE RHTML ( id SERIAL PRIMARY KEY, url TEXT, html  TEXT )"
-    )
+    conn = getConn()
+    with conn.cursor() as cur:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS rhtml (
+                id SERIAL PRIMARY KEY,
+                url TEXT,
+                html TEXT
+            )
+        """)
+        conn.commit()
