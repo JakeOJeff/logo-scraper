@@ -1,4 +1,5 @@
 from playwright.sync_api import sync_playwright, Playwright
+from parser import psg
 
 def run(playwright: Playwright):
     chromium = playwright.chromium
@@ -6,6 +7,7 @@ def run(playwright: Playwright):
     page = browser.new_page()
     page.goto("https://example.com")
     html_content = page.content()
+    psg.create()
     print(html_content)
     browser.close()
 
