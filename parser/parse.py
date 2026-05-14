@@ -38,11 +38,14 @@ def parseHtml(url,html):
     imgAlt = None
     for img in soup.find_all('img'):
         alt = img.get('alt', '')
-        if 'logo' in alt.lower():
-            imgAlt = img.get('src')
+        data_cy = img.get('data-cy', '')
+        data_test = img.get('data-testid', '')
+
+        if any( 'logo' in x.lower() for x in [alt, data_cy, data_test]):
+            imgAlt = img.get('data-src') or img.get('src') or None
             break
 
-    logo =  ogImage or schemaJson or metaTagContent or linkTagAppleIcon or imgAlt or svgLogo
+    logo =  imgAlt  or ogImage or metaTagContent or linkTagAppleIcon or  schemaJson or svgLogo
 
     if logo:
         print(f"{url} | {logo}")
