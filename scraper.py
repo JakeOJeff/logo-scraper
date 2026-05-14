@@ -1,40 +1,48 @@
 import asyncio
+import os
 from playwright.async_api import async_playwright, Playwright
-from parser import psg, parse
+from parser import psg, parse, worker
 import csv
 
-def run(playwright: Playwright):
+async def run(playwright: Playwright):
     chromium = playwright.chromium
-    browser = await chromium.launch(headless=True)
+
+    urls = []
+    with open("websites.csv") as f:
+        for line in f:
+            url = "https://" + line.strip()
+            urls.append(url)
 
     psg.clearAll() # i added db clear to test
     psg.create()
 
-    page = await browser.new_page()
+    chunks = []
+    NUMWORKERS = 3
+    for i in range(NUMWORKERS):
+        chunks.append([])
 
-    with open("websites.csv") as f:
-        for line in f:
-            url = "https://" + line.strip()
-            try:
-                page.goto(url, timeout=30000)
-                page.wait_for_load_state('domcontentloaded', timeout=10000)
-                html = page.content()
-                psg.insertHtml(url, html)
-            except Exception as e:
-                print(f"failed {url} - {e}")
-                with open('output/failed.csv', 'a', newline='') as f:
-                    writer = csv.writer(f)
-                    writer.writerow([url, str(e).split('\n')[0]])
-                
-                try:
-                    page.goto('about:blank', timeout=50000)
-                except:
-                    pass
-                continue
+    i = 0
+    for url in urls:
+        chunks[i].append(url)
+        i = i + 1
+        if i >= NUMWORKERS:
+            i = 0
+        
+    # instead of individualistic assigning, giving seperate browsers, with running couroutines
+    async with async_playwright() as playwright:
+        browser = await chromium.launch(headless=True)
+
+        tasks = []
+        for i in range(NUMWORKERS):
+            task = scrapeWorker(browser, chunks[i], i)
+            tasks.append(task)
+
+        await asyncio.gather(*tasks)
+
+        await browser.close()
+
 
     psg.parseDBHtml()
-    browser.close()
 
-
-with sync_playwright() as playwright:
-    run(playwright)
+# with sync_playwright() as playwright:
+#     run(playwright)
