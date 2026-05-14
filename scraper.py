@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright, Playwright
-from parser import psg
+from parser import psg, parse
 import csv
 
 def run(playwright: Playwright):
@@ -18,6 +18,7 @@ def run(playwright: Playwright):
             html = page.content()
             psg.insertHtml(url, html)
 
+    psg.parseDBHtml()
     browser.close()
 
 with sync_playwright() as playwright:
