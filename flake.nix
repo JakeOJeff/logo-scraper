@@ -49,6 +49,7 @@
         inherit nativeBuildInputs buildInputs;
         propagatedBuildInputs = with python.pkgs; [
           playwright
+          beautifulsoup4
         ];
       };
     });

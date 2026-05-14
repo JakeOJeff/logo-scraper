@@ -1,4 +1,5 @@
 import psycopg2
+import parse 
 
 def getConn():
     return psycopg2.connect(dbname="logos")
@@ -26,6 +27,7 @@ def insertHtml(url, html):
         )
     conn.commit()
     print(f"inserted {url}")
+
 
 def clearAll():
     conn = getConn()

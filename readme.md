@@ -2,7 +2,7 @@ nix develop
 
 python -m venv .venv
 source .venv/bin/activate
-pip install playwright psycopg2-binary
+pip install playwright psycopg2-binary beautifulsoup4
 
 createdb logos
 
