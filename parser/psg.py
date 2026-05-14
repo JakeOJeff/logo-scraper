@@ -30,9 +30,6 @@ def insertHtml(url, html):
 def clearAll():
     conn = getConn()
     with conn.cursor() as cur:
-        cur.execute("""
-            DELETE FROM rhtml;
-            TRUNCATE rhtml; 
-        """)
+        cur.execute("TRUNCATE rhtml RESTART IDENTITY")
     conn.commit()
     print("cleared data")

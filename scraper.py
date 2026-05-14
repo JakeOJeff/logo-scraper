@@ -8,6 +8,7 @@ def run(playwright: Playwright):
 
     psg.clearAll() # i added db clear to test
     psg.create()
+
     page = browser.new_page()
 
     with open("websitesSmall.csv") as f:
