@@ -56,3 +56,4 @@ def clearAll():
     conn.commit()
     putConn(conn)
     print("cleared data")
+

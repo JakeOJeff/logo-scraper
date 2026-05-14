@@ -1,8 +1,11 @@
 from playwright.sync_api import sync_playwright, Playwright
 from parser import psg, parse
-import csv
+import csv, psutil, os, time
 
 def run(playwright: Playwright):
+    # benchmarking
+    funcStartTime = time.time()
+
     chromium = playwright.chromium
     browser = chromium.launch()
 
@@ -10,6 +13,9 @@ def run(playwright: Playwright):
     psg.create()
 
     page = browser.new_page()
+
+
+    insertStartTime = time.time()
 
     with open("websitesSmall.csv") as f:
         buff = []
@@ -30,9 +36,17 @@ def run(playwright: Playwright):
         psg.insertHtmlSet(buff)
 
 
+    parseStartTime = time.time()
     psg.parseDBHtml()
     browser.close()
+    process = psutil.Process(os.getpid())
 
+    # benchmark stats
+    print(f"RAM used:   {process.memory_info().rss / 1024 / 1024:.1f} MB")
+    print(f"CPU time:   {process.cpu_times().user:.2f}s")
+    print(f"Total Time: {time.time() - funcStartTime:.2f}s")
+    print(f"Scraping/Inserting Time: {time.time() - insertStartTime:.2f}s")
+    print(f"Parsing Time: {time.time() - parseStartTime:.2f}s")
 
 with sync_playwright() as playwright:
     run(playwright)
