@@ -34,7 +34,7 @@ def parseDBHtml():
         cur.execute("SELECt * FROM rhtml")
         rows = cur.fetchall()
         for row in rows:
-            parse.parseHtml(row[2]) # im parsing html and trying return possible url
+            parse.parseHtml(row[1],row[2]) # im parsing html and trying return possible url
 
 
 

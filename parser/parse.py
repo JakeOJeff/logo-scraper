@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-def parseHtml(html):
+def parseHtml(url,html):
     soup = BeautifulSoup(html, 'html.parser')
 
     # add series of checks / so first will add all possible data points
@@ -17,10 +17,10 @@ def parseHtml(html):
             break
 
     if metaTagContent:
-        print(metaTagContent)
+        print(f"{url} | {metaTagContent}")
     elif linkTagAppleIcon:
-        print(linkTagAppleIcon)
-    else:
-        print(imgAlt)
+        print(f"{url} | {linkTagAppleIcon}")
+    elif imgAlt:
+        print(f"{url} | {imgAlt}")
 
 
