@@ -25,7 +25,7 @@ def run(playwright: Playwright):
                 print(f"failed {url} - {e}")
                 with open('output/failed.csv', 'a', newline='') as f:
                     writer = csv.writer(f)
-                    writer.writerow([url, e])
+                    writer.writerow([url, str(e).split('\n')[0]])
                 continue
         psg.insertHtmlSet(buff)
 

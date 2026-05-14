@@ -1,8 +1,14 @@
-import psycopg2
+from psycopg2 import pool 
 from parser import parse
 
+# 2 connections for now, add a multiconnection later ( threading? )
+_pool = pool.SimpleConnectionPool(1, 2, dbname="logos")
+
 def getConn():
-    return psycopg2.connect(dbname="logos")
+    return _pool.getconn()
+
+def putConn(conn):
+    return _pool.putconn(conn)
 
 def create():
     conn = getConn()
@@ -15,6 +21,7 @@ def create():
             )
         """)
         conn.commit()
+    putConn(conn)
     print("created rhtml table")
 
 
@@ -26,6 +33,7 @@ def insertHtmlSet(buff):
         """, buff
         )
     conn.commit()
+    putConn(conn)
 
 def parseDBHtml():
     conn = getConn()
@@ -38,6 +46,7 @@ def parseDBHtml():
             if status:
                 count = count + 1
 
+    putConn(conn)
     print(f"Scraped Logos: {count}/{len(rows)}")
 
 def clearAll():
@@ -45,4 +54,5 @@ def clearAll():
     with conn.cursor() as cur:
         cur.execute("TRUNCATE rhtml RESTART IDENTITY")
     conn.commit()
+    putConn(conn)
     print("cleared data")
