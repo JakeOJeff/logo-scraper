@@ -28,7 +28,7 @@ def run(playwright: Playwright):
                 buff.append((url, html))
                 print(f"appended {url}")
             except Exception as e:
-                print(f"failed {url} - {e}")
+                print(f"failed {url} - {str(e).split('\n')[0]}")
                 with open('output/failed.csv', 'a', newline='') as f:
                     writer = csv.writer(f)
                     writer.writerow([url, str(e).split('\n')[0]])

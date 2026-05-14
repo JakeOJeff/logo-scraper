@@ -39,15 +39,17 @@ def parseDBHtml():
     conn = getConn()
     count = 0
     with conn.cursor() as cur:
-        cur.execute("SELECt * FROM rhtml")
-        rows = cur.fetchall()
-        for row in rows:
+        cur.execute("SELECT COUNT(*) FROM rhtml")
+        total = cur.fetchone()[0]
+    with conn.cursor("stream-cur") as cur:
+        cur.execute("SELECT id, url, html FROM rhtml")
+        for row in cur:
             status = parse.parseHtml(row[1],row[2]) # im parsing html and trying return possible url
             if status:
                 count = count + 1
 
     putConn(conn)
-    print(f"Scraped Logos: {count}/{len(rows)}")
+    print(f"Scraped Logos: {count}/{total}")
 
 def clearAll():
     conn = getConn()

@@ -3,7 +3,9 @@ import json
 import csv
 
 def parseHtml(url,html):
-    soup = BeautifulSoup(html, 'html.parser')
+    kb = 1024
+    # so i added a 100kb limit here, im not sure if this is a good idea in the long run, but its fast for now
+    soup = BeautifulSoup(html[:200 * kb], 'html.parser')
     count = 0
 
     # add series of checks / so first will add all possible data points
