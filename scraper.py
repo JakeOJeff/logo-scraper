@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright, Playwright
 from parser import psg
+import csv
 
 def run(playwright: Playwright):
     chromium = playwright.chromium
@@ -7,13 +8,13 @@ def run(playwright: Playwright):
     psg.create()
     page = browser.new_page()
 
-    url = "https://example.com"
-    page.goto(url)
-    htmlContent = page.content()
-    
-    print(htmlContent)
-    
-    psg.insertHtml(url, htmlContent)
+    with open("websitesSmall.csv") as f:
+        for line in f:
+            url = "https://" + line.strip()
+            page.goto(url)
+            html = page.content()
+            psg.insertHtml(url, html)
+
     browser.close()
 
 with sync_playwright() as playwright:

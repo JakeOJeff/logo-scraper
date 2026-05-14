@@ -23,3 +23,4 @@ def insertHtml(url, html):
         """, (url, html)
         )
     conn.commit()
+    print(f"inserted {url}")
