@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import json
+import csv
 
 def parseHtml(url,html):
     soup = BeautifulSoup(html, 'html.parser')
@@ -49,6 +50,10 @@ def parseHtml(url,html):
 
     if logo:
         print(f"{url} | {logo}")
+        with open('output/success.csv', 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([url, logo])
+
         return True 
     else:
         print(f"{url} | no logo found")
