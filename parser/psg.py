@@ -28,6 +28,15 @@ def insertHtml(url, html):
     conn.commit()
     print(f"inserted {url}")
 
+def parseDBHtml()
+    conn = getConn()
+    with conn.cursor() as cur
+        cur.execute("SELECt * FROM rhtml")
+        rows = cur.fetchall()
+        for row in rows:
+            parse.parseHtml(row[2]) # im parsing html and trying return possible url
+            
+
 
 def clearAll():
     conn = getConn()
