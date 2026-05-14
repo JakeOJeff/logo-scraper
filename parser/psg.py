@@ -18,15 +18,14 @@ def create():
     print("created rhtml table")
 
 
-def insertHtml(url, html):
+def insertHtmlSet(buff):
     conn = getConn()
     with conn.cursor() as cur:
-        cur.execute("""
+        cur.executemany("""
             INSERT INTO rhtml (url, html) VALUES (%s, %s)
-        """, (url, html)
+        """, buff
         )
     conn.commit()
-    print(f"inserted {url}")
 
 def parseDBHtml():
     conn = getConn()

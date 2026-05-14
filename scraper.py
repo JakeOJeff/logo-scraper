@@ -11,20 +11,24 @@ def run(playwright: Playwright):
 
     page = browser.new_page()
 
-    with open("websites.csv") as f:
+    with open("websitesSmall.csv") as f:
+        buff = []
         for line in f:
             url = "https://" + line.strip()
             try:
                 page.goto(url, timeout=10000)
                 page.wait_for_load_state('domcontentloaded', timeout=10000)
                 html = page.content()
-                psg.insertHtml(url, html)
+                buff.append((url, html))
+                print(f"appended {url}")
             except Exception as e:
                 print(f"failed {url} - {e}")
                 with open('output/failed.csv', 'a', newline='') as f:
                     writer = csv.writer(f)
                     writer.writerow([url, e])
                 continue
+        psg.insertHtmlSet(buff)
+
 
     psg.parseDBHtml()
     browser.close()
