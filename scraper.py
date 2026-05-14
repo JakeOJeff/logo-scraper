@@ -5,6 +5,8 @@ import csv
 def run(playwright: Playwright):
     chromium = playwright.chromium
     browser = chromium.launch()
+
+    psg.clearAll() # i added db clear to test
     psg.create()
     page = browser.new_page()
 

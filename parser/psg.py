@@ -14,6 +14,8 @@ def create():
             )
         """)
         conn.commit()
+    print("created rhtml table")
+
 
 def insertHtml(url, html):
     conn = getConn()
@@ -24,3 +26,13 @@ def insertHtml(url, html):
         )
     conn.commit()
     print(f"inserted {url}")
+
+def clearAll():
+    conn = getConn()
+    with conn.cursor() as cur:
+        cur.execute("""
+            DELETE FROM rhtml;
+            TRUNCATE rhtml; 
+        """)
+    conn.commit()
+    print("cleared data")
