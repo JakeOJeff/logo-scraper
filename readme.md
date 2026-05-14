@@ -16,5 +16,18 @@ psql logos
 
 benchmarking :
 
+prev:
+Scraped Logos: 7/9
+RAM used:   77.9 MB
+CPU time:   0.60s
+Total Time: 51.60s
+Scraping/Inserting Time: 51.44s
+Parsing Time: 0.32s
 
 optimization mark 1:
+Scraped Logos: 7/9
+RAM used:   87.9 MB
+CPU time:   0.62s
+Total Time: 33.00s
+Scraping/Inserting Time: 32.90s
+Parsing Time: 0.34s
