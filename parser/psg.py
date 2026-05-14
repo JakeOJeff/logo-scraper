@@ -30,13 +30,16 @@ def insertHtml(url, html):
 
 def parseDBHtml():
     conn = getConn()
+    count = 0
     with conn.cursor() as cur:
         cur.execute("SELECt * FROM rhtml")
         rows = cur.fetchall()
         for row in rows:
-            parse.parseHtml(row[1],row[2]) # im parsing html and trying return possible url
+            status = parse.parseHtml(row[1],row[2]) # im parsing html and trying return possible url
+            if status:
+                count = count + 1
 
-
+    print(f"Scraped Logos: {count}/{len(rows)}")
 
 def clearAll():
     conn = getConn()

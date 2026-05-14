@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 
 def parseHtml(url,html):
     soup = BeautifulSoup(html, 'html.parser')
+    count = 0
 
     # add series of checks / so first will add all possible data points
     meta = soup.find('meta', attrs={'itemprop': 'image'})
@@ -16,11 +17,15 @@ def parseHtml(url,html):
             imgAlt = img.get('src')
             break
 
-    if metaTagContent:
-        print(f"{url} | {metaTagContent}")
-    elif linkTagAppleIcon:
-        print(f"{url} | {linkTagAppleIcon}")
-    elif imgAlt:
-        print(f"{url} | {imgAlt}")
+    logo = metaTagContent or linkTagAppleIcon or imgAlt
+
+    if logo:
+        print(f"{url} | {logo}")
+        return True 
+    else:
+        print(f"{url} | no logo found")
+        return False
+
+
 
 
