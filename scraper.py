@@ -15,7 +15,7 @@ def run(playwright: Playwright):
         for line in f:
             url = "https://" + line.strip()
             try:
-                page.goto(url, timeout=10000)
+                page.goto(url, timeout=30000)
                 page.wait_for_load_state('domcontentloaded', timeout=10000)
                 html = page.content()
                 psg.insertHtml(url, html)

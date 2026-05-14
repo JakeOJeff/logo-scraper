@@ -57,6 +57,9 @@ def parseHtml(url,html):
         return True 
     else:
         print(f"{url} | no logo found")
+        with open('output/unidentified.csv', 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([url])
         return False
 
 
