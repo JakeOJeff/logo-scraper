@@ -16,7 +16,7 @@ def parseHtml(url,html):
         except:
             pass
 
-    og = soup.find('meta', attrs={og:image})
+    og = soup.find('meta', property={"og:image"})
     ogImage = og.get('content') if og else None
 
     meta = soup.find('meta', attrs={'itemprop': 'image'})
