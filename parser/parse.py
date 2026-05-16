@@ -4,7 +4,7 @@ import csv
 
 def parseHtml(url,html):
     kb = 1024
-    # so i added a 100kb limit here, im not sure if this is a good idea in the long run, but its fast for now
+    # so i added a 200kb limit here, im not sure if this is a good idea in the long run, but its fast for now
     soup = BeautifulSoup(html[:200 * kb], 'html.parser')
     count = 0
 

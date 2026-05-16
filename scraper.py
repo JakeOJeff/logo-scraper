@@ -32,7 +32,10 @@ def run(playwright: Playwright):
                 with open('output/failed.csv', 'a', newline='') as f:
                     writer = csv.writer(f)
                     writer.writerow([url, str(e).split('\n')[0]])
+                page.close()
+                page = browser.new_page()
                 continue
+
         psg.insertHtmlSet(buff)
 
 

@@ -13,6 +13,15 @@ testing stuff :
 psql logos
 \dt \dt rhtml 
 
+for iwd issues in daemon :
+
+sudo tee /etc/iwd/main.conf <<EOF
+[General]
+EnableNetworkConfiguration=true
+EOF
+
+sudo systemctl restart iwd
+
 
 benchmarking :
 
@@ -58,3 +67,14 @@ Scraping/Inserting Time: 29.49s
 Parsing Time: 0.14s
 
 - added 200 kb limit when parsing ( unsure if this is good in the long run )
+
+scraping accuracy mark 1 :
+
+Scraped Logos: 9/11
+RAM used:   75.3 MB
+CPU time:   0.51s
+Total Time: 65.25s
+Scraping/Inserting Time: 64.70s
+Parsing Time: 0.17s
+
+- added page closing on fail so that it doesn't mess with post-scraping on same page ( improved scrapability but reduced performance by a lot! )
