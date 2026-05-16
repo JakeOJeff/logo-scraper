@@ -1,4 +1,6 @@
 from playwright.sync_api import sync_playwright, Playwright
+from concurrent.futures import ThreadPoolExecutor
+
 from parser import psg, parse
 import csv, psutil, os, time
 
@@ -50,6 +52,27 @@ def run(playwright: Playwright):
     print(f"Total Time: {time.time() - funcStartTime:.2f}s")
     print(f"Scraping/Inserting Time: {time.time() - insertStartTime:.2f}s")
     print(f"Parsing Time: {time.time() - parseStartTime:.2f}s")
+
+
+def startScrape(args):
+    url, browser = args
+    page = browser.new_page()
+
+    try:
+        page.goto(url)
+        page.wait_for_load_state('domcontentloaded', timeout=10000)
+        html = page.content()
+        print(f"appended {url}")
+        return (url, html)
+    except Exception as e:
+        print(f"failed {url} - {str(e).split('\n')[0]}")
+        with open('output/failed.csv', 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([url, str(e).split('\n')[0]])
+        return None
+    finally:
+        page.close()
+
 
 with sync_playwright() as playwright:
     run(playwright)
