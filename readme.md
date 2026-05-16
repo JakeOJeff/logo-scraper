@@ -113,3 +113,14 @@ Scraping/Inserting Time: 14.30s
 Parsing Time: 0.15s
 
 - added forced http2 disabling and also fixed the function calls for timeout and domcontentloaded for playwright callbacks
+
+large test 1 ( 300 urls ):
+
+Scraped Logos: 181/225
+RAM used:   519.5 MB
+CPU time:   11.33s
+Total Time: 284.48s
+Scraping/Inserting Time: 284.43s
+Parsing Time: 4.14s
+
+- 75% Urls Scraped | 60.33% Logos Identified | 80.4% Scraped Logos Identified
