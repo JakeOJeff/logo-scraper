@@ -78,3 +78,16 @@ Scraping/Inserting Time: 64.70s
 Parsing Time: 0.17s
 
 - added page closing on fail so that it doesn't mess with post-scraping on same page ( improved scrapability but reduced performance by a lot! )
+
+optimization mark 4:
+
+Scraped Logos: 8/12
+RAM used:   102.8 MB
+CPU time:   0.66s
+Total Time: 23.24s
+Scraping/Inserting Time: 23.19s
+Parsing Time: 0.15s
+
+- added multithreading with 3 workers and now playwright creates its own instance in each thread and no longer shares between threads. 
+
+Time reduced by 3 times but ram usage has spiked. More websites have been scraped but it failed to identify one as before. ( might have to add asyncio later )

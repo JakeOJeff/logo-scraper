@@ -4,12 +4,32 @@ from concurrent.futures import ThreadPoolExecutor
 from parser import psg, parse
 import csv, psutil, os, time
 
-def run(playwright: Playwright):
+
+def startScrape(url):
+    with sync_playwright() as playwright:
+        chromium = playwright.chromium
+        browser = chromium.launch()
+        page = browser.new_page()
+
+        try:
+            page.goto(url)
+            page.wait_for_load_state('domcontentloaded', timeout=10000)
+            html = page.content()
+            print(f"appended {url}")
+            return (url, html)
+        except Exception as e:
+            print(f"failed {url} - {str(e).split('\n')[0]}")
+            with open('output/failed.csv', 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([url, str(e).split('\n')[0]])
+            return None
+        finally:
+            browser.close()
+
+
+def run():
     # benchmarking
     funcStartTime = time.time()
-
-    chromium = playwright.chromium
-    browser = chromium.launch()
 
     psg.clearAll() # i added db clear to test
     psg.create()
@@ -17,14 +37,11 @@ def run(playwright: Playwright):
     insertStartTime = time.time()
 
     urls = []
-    results = []
     with open("websitesSmall.csv") as f:
         urls = ["https://" + line.strip() for line in f]
 
-    pairs = [(url, browser) for url in urls]
-
     with ThreadPoolExecutor(3) as executor:
-        results = executor.map(startScrape, pairs)
+        results = executor.map(startScrape, urls)
 
 
     buff = [r for r in results if r is not None]
@@ -33,7 +50,7 @@ def run(playwright: Playwright):
 
     parseStartTime = time.time()
     psg.parseDBHtml()
-    browser.close()
+    
     process = psutil.Process(os.getpid())
 
     # benchmark stats
@@ -44,25 +61,6 @@ def run(playwright: Playwright):
     print(f"Parsing Time: {time.time() - parseStartTime:.2f}s")
 
 
-def startScrape(args):
-    url, browser = args
-    page = browser.new_page()
 
-    try:
-        page.goto(url)
-        page.wait_for_load_state('domcontentloaded', timeout=10000)
-        html = page.content()
-        print(f"appended {url}")
-        return (url, html)
-    except Exception as e:
-        print(f"failed {url} - {str(e).split('\n')[0]}")
-        with open('output/failed.csv', 'a', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow([url, str(e).split('\n')[0]])
-        return None
-    finally:
-        page.close()
-
-
-with sync_playwright() as playwright:
-    run(playwright)
+if __name__ == "__main__":
+    run()
