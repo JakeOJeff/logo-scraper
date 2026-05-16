@@ -14,31 +14,21 @@ def run(playwright: Playwright):
     psg.clearAll() # i added db clear to test
     psg.create()
 
-    page = browser.new_page()
-
-
     insertStartTime = time.time()
 
+    urls = []
+    results = []
     with open("websitesSmall.csv") as f:
-        buff = []
-        for line in f:
-            url = "https://" + line.strip()
-            try:
-                page.goto(url, timeout=10000)
-                page.wait_for_load_state('domcontentloaded', timeout=10000)
-                html = page.content()
-                buff.append((url, html))
-                print(f"appended {url}")
-            except Exception as e:
-                print(f"failed {url} - {str(e).split('\n')[0]}")
-                with open('output/failed.csv', 'a', newline='') as f:
-                    writer = csv.writer(f)
-                    writer.writerow([url, str(e).split('\n')[0]])
-                page.close()
-                page = browser.new_page()
-                continue
+        urls = ["https://" + line.strip() for line in f]
 
-        psg.insertHtmlSet(buff)
+    pairs = [(url, browser) for url in urls]
+
+    with ThreadPoolExecutor(3) as executor:
+        results = executor.map(startScrape, pairs)
+
+
+    buff = [r for r in results if r is not None]
+    psg.insertHtmlSet(buff)
 
 
     parseStartTime = time.time()
