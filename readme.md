@@ -91,3 +91,25 @@ Parsing Time: 0.15s
 - added multithreading with 3 workers and now playwright creates its own instance in each thread and no longer shares between threads. 
 
 Time reduced by 3 times but ram usage has spiked. More websites have been scraped but it failed to identify one as before. ( might have to add asyncio later )
+
+scraping accuracy mark 2:
+
+Scraped Logos: 10/12
+RAM used:   94.3 MB
+CPU time:   0.70s
+Total Time: 42.08s
+Scraping/Inserting Time: 42.07s
+Parsing Time: 0.16s
+
+- added forced http2 disabling, reduced ram usage and improved identification, but increased time significantly
+
+optimization mark 5:
+
+Scraped Logos: 9/12
+RAM used:   97.8 MB
+CPU time:   0.63s
+Total Time: 14.31s
+Scraping/Inserting Time: 14.30s
+Parsing Time: 0.15s
+
+- added forced http2 disabling and also fixed the function calls for timeout and domcontentloaded for playwright callbacks

@@ -8,12 +8,13 @@ import csv, psutil, os, time
 def startScrape(url):
     with sync_playwright() as playwright:
         chromium = playwright.chromium
-        browser = chromium.launch()
-        page = browser.new_page()
+        browser = chromium.launch(args=['--disable-http2'])
+        page = browser.new_page(
+            user_agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        )
 
         try:
-            page.goto(url)
-            page.wait_for_load_state('domcontentloaded', timeout=10000)
+            page.goto(url, timeout=10000, wait_until="domcontentloaded", )
             html = page.content()
             print(f"appended {url}")
             return (url, html)
@@ -40,7 +41,7 @@ def run():
     with open("websitesSmall.csv") as f:
         urls = ["https://" + line.strip() for line in f]
 
-    with ThreadPoolExecutor(3) as executor:
+    with ThreadPoolExecutor(5) as executor:
         results = executor.map(startScrape, urls)
 
 
