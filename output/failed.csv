@@ -73,3 +73,8 @@ https://charterbusiness.com,Page.goto: Timeout 10000ms exceeded.
 https://qq.com,Page.goto: Timeout 10000ms exceeded.
 https://clickability.com,Page.goto: Timeout 10000ms exceeded.
 https://totalrecipesearch.com,Page.goto: Timeout 10000ms exceeded.
+https://directv.com,Page.goto: net::ERR_ABORTED at https://directv.com/
+https://whitepages.com,Page.goto: net::ERR_ABORTED at https://whitepages.com/
+https://surveymonkey.com,"Page.goto: Target page, context or browser has been closed"
+https://verizonwireless.com,"Page.goto: Target page, context or browser has been closed"
+https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
