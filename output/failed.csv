@@ -78,3 +78,21 @@ https://whitepages.com,Page.goto: net::ERR_ABORTED at https://whitepages.com/
 https://surveymonkey.com,"Page.goto: Target page, context or browser has been closed"
 https://verizonwireless.com,"Page.goto: Target page, context or browser has been closed"
 https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
+https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
+https://directv.com,Page.goto: Timeout 10000ms exceeded.
+https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
+https://att.com,Page.goto: Timeout 10000ms exceeded.
+https://t-mobile.com,Page.goto: Timeout 10000ms exceeded.
+https://directv.com,Page.goto: Timeout 10000ms exceeded.
+https://ask.com,Page.goto: Timeout 10000ms exceeded.
+https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
+https://directv.com,Page.goto: Timeout 10000ms exceeded.
+https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
+https://directv.com,Page.goto: Timeout 10000ms exceeded.
+https://t-mobile.com,Page.goto: Timeout 10000ms exceeded.
+https://att.com,Page.goto: Timeout 10000ms exceeded.
+https://twitter.com,Page.goto: Timeout 10000ms exceeded.
+https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
+https://directv.com,Page.goto: Timeout 10000ms exceeded.
+https://comcast.com,Page.goto: net::ERR_CONNECTION_REFUSED at https://comcast.com/
+https://directv.com,Page.goto: Timeout 10000ms exceeded.
