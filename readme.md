@@ -6,7 +6,7 @@ nix develop
 
 python -m venv .venv
 source .venv/bin/activate
-pip install playwright psycopg2-binary beautifulsoup4
+pip install playwright psycopg2-binary beautifulsoup4 psutil
 
 createdb logos
 
@@ -141,3 +141,5 @@ Parsing Time: 4.14s
  - migrate from multi-threading to asyncio
  
  - offloading a function to something like Lua, Rust Or C. I thought of using Lua atfirst because it is something I am comfortable in and better dev experience, but it heavily affects the time complexity. So it has to be written in C. The function I plan to write is to create a scoring system in python, and then analyze based on position ( like top-bottom equals to higher-lower chance ), then width, height, imHeader, words like 'logo', 'icon', 'brand', etc. And these are scored, and highest score is scraped as a logo. This is for scenarios where traditional scraping doesn't work and this is fallback
+
+ - adding a queue system so that i can check if any previous urls have been already scraped in the db
